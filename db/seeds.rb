@@ -1,9 +1,15 @@
 puts "🌱 Seeding spices..."
 
-# Seed your database here
-User.create(name: "Abby",password: "password")
-User.create(name: "Brooke", password: "password")
-User.create(name: "David", password: "password")
-User.create(name: "Eleanor", password: "password")
+# USERS
+# have many wishlists
+# have many parks through wishlists
+
+# WISHLIST (REVIEWS, RATINGS, FAVORITES)
+# belongs to a park
+# belongs to a user
+
+# PARKS
+# have many wishlists
+# have many users through wishlists
 
 puts "✅ Done seeding!"

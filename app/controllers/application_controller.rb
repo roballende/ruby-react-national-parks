@@ -1,25 +1,33 @@
 class ApplicationController < Sinatra::Base
-  set :default_content_type, 'application/json'
+    set :default_content_type, 'application/json'
   
-  # Add your routes here
-  get "/users" do
-    # { message: "Good luck with your project!" }.to_json
-    User.all.to_json
-  end
+    # USERS
+    # GET 
 
-  get "/users/:id" do
-    user = User.find(params[:id])
-    user.to_json
-  end
+    # REVIEWS
+    # GET
 
-  post "/users" do
-    newUser = User.create(name: params[:name], password: params[:password])
-    newUser.to_json
-  end
+    # POST
 
-  get "/parks/acadia" do 
-    display all acadia info
-    display acadia pictures 
-  end
+    # PATCH
+
+    # DELETE
+
+    # RATING
+    get '/parks/:park_id/average_rating' do
+        park = Park.find(params[:park_id])
+        park.average_rating.to_json
+    end
+
+    # PARKS 
+    get "/parks" do 
+        parks = Park.all.order(:name)
+        parks.to_json
+    end
+
+    get "/parks/:park_id" do 
+        park = Park.find(params[:park_id])
+        park.to_json
+    end
 
 end

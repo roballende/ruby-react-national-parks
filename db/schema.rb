@@ -10,7 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_20_164718) do
+ActiveRecord::Schema.define(version: 2023_01_23_192614) do
+
+  create_table "parks", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+  end
+
+  create_table "reviews", force: :cascade do |t|
+    t.string "comment"
+    t.integer "rating"
+    t.boolean "favorite"
+    t.integer "user_id"
+    t.integer "park_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "name"

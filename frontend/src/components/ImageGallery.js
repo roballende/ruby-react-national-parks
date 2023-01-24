@@ -4,7 +4,7 @@ function ImageGallery() {
 
     return (
         <div>
-
+            <h4>IMAGE GALLERY</h4>
         </div>
     )
 }

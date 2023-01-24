@@ -22,7 +22,7 @@ function Search({ parks, setParkID }) {
 
     return (
         <div>
-            SEARCHBAR
+            <h4>SEARCH</h4>
             <div>
                 <input
                     type='text'

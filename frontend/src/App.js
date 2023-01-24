@@ -6,6 +6,8 @@ import Form from "./components/Form"
 import Map from "./components/Map"
 import ImageGallery from "./components/ImageGallery"
 import React, { useState, useEffect } from "react"
+import StarIcon from "@mui/icons-material/Star"
+import StarBorderIcon from "@mui/icons-material/StarBorder"
 
 function App() {
     // SET STATE FOR ALL PARKS
@@ -18,30 +20,83 @@ function App() {
     const [selectedPark, setSelectedPark] = useState({})
 
     // SET AVG RATINGS
-    const [averageRating, setAverageRating] = useState(0)
+    const [starRating, setStarRating] = useState("")
+
+    // SET PARK REVIEWS
+    const [parkReviews, setParkReviews] = useState([])
 
     // FETCH ALL PARKS
     useEffect(() => {
         fetch("http://localhost:9292/parks")
-            .then((r) => r.json())
+            .then((resp) => resp.json())
             .then((data) => setParks(data))
     }, [])
 
     // FETCH SELECTED PARK
     useEffect(() => {
         fetch(`http://localhost:9292/parks/${parkID}`)
-            .then((r) => r.json())
-            .then((data) => setSelectedPark(data))
+            .then((resp) => resp.json())
+            .then((park) => {
+                setSelectedPark(park)
+                setParkReviews(park.reviews)
+            })
     }, [parkID])
 
-    // FETCH PARK REVIEWS
+    console.log(selectedPark)
+    console.log(parkReviews)
 
-    // FETCH PARK AVG RATING
+    // FETCH PARK AVG RATING & CONVERT TO STAR
     useEffect(() => {
         fetch(`http://localhost:9292/parks/${parkID}/average_rating`)
-            .then((res) => res.json())
-            .then((data) => setAverageRating(data))
+            .then((resp) => resp.json())
+            .then((rating) => {
+                if (rating === 1) {
+                    setStarRating(
+                        <div><StarIcon /><StarBorderIcon /><StarBorderIcon /><StarBorderIcon /><StarBorderIcon /></div>
+                    )
+                } else if (rating === 2) {
+                    setStarRating(
+                        <div><StarIcon /><StarIcon /><StarBorderIcon /><StarBorderIcon /><StarBorderIcon /></div>
+                    )
+                } else if (rating === 3) {
+                    setStarRating(
+                        <div><StarIcon /><StarIcon /><StarIcon /><StarBorderIcon /><StarBorderIcon /></div>
+                    )
+                } else if (rating === 4) {
+                    setStarRating(
+                        <div>
+                            <StarIcon />
+                            <StarIcon />
+                            <StarIcon />
+                            <StarIcon />
+                            <StarBorderIcon />
+                        </div>
+                    )
+                } else if (rating === 5) {
+                    setStarRating(
+                        <div>
+                            <StarIcon />
+                            <StarIcon />
+                            <StarIcon />
+                            <StarIcon />
+                            <StarIcon />
+                        </div>
+                    )
+                } else {
+                    setStarRating(
+                        <div>
+                            <StarBorderIcon />
+                            <StarBorderIcon />
+                            <StarBorderIcon />
+                            <StarBorderIcon />
+                            <StarBorderIcon />
+                        </div>
+                    )
+                }
+            })
     }, [parkID])
+
+    // <LooksOneOutlinedIcon fontSize='medium' />
 
     // POST PARK REVIEW / RATING
 
@@ -52,10 +107,15 @@ function App() {
     return (
         <div className='App'>
             <Search parks={parks} setParkID={setParkID} />
-            <Info selectedPark={selectedPark} averageRating={averageRating}/>
-            <Reviews />
+            <br></br>
+            <Info selectedPark={selectedPark} starRating={starRating} />
+            <hr></hr>
+            <Reviews parkReviews={parkReviews} />
+            <hr></hr>
             <Form />
+            <hr></hr>
             <Map />
+            <hr></hr>
             <ImageGallery />
         </div>
     )

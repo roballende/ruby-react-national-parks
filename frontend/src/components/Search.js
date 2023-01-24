@@ -7,7 +7,7 @@ function Search({ parks, setParkID }) {
     // FILTER DROPDOWN RESULTS
     const onSearchChange = (currentSearch) => {
         setSearch(currentSearch)
-        const filteredResults = parks.filter((park) =>
+        let filteredResults = parks.filter((park) =>
             park.name.toLowerCase().includes(search.toLowerCase())
         )
         setResults(filteredResults)
@@ -17,12 +17,13 @@ function Search({ parks, setParkID }) {
     const onInputChange = (e) => {
         const selectedPark = parks.find((park) => park.name === e.target.value)
         setParkID(selectedPark.id)
+        // setResults([]) WHY DOES THIS NOT WORK TO CLEAR THE RESULT ARRAY
     }
 
     return (
         <div>
             SEARCHBAR
-            <form>
+            <div>
                 <input
                     type='text'
                     name='search'
@@ -38,7 +39,7 @@ function Search({ parks, setParkID }) {
                         <option key={index} value={park.name} />
                     ))}
                 </datalist>
-            </form>
+            </div>
         </div>
     )
 }

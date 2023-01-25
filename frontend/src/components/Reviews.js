@@ -2,10 +2,10 @@ import React from "react"
 
 function Reviews({ parkReviews }) {
 
-    const reviews = Object.values(parkReviews)
-    // let reviewsArray = []
-    // reviewsArray = [parkReviews]
-    // console.log(reviewsArray)
+    // const reviews = Object.values(parkReviews)
+    let reviews = []
+    reviews = parkReviews
+    
 
     return (
         <div>
@@ -18,7 +18,8 @@ function Reviews({ parkReviews }) {
                         <div>Rating: {review.rating}</div>
                         <br></br>
                     </div>
-                ))}
+                    )
+                    )}
             </div>
         </div>
     )

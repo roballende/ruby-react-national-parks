@@ -10,6 +10,9 @@ import StarIcon from "@mui/icons-material/Star"
 import StarBorderIcon from "@mui/icons-material/StarBorder"
 
 function App() {
+    // SET USER FOR FORM
+    const [userID, setUserID] = useState(7)
+
     // SET STATE FOR ALL PARKS
     const [parks, setParks] = useState([])
 
@@ -42,8 +45,12 @@ function App() {
             })
     }, [parkID])
 
-    console.log(selectedPark)
-    console.log(parkReviews)
+    // FETCH USER
+    useEffect(() => {
+        fetch(`http://localhost:9292/users/${userID}`)
+            .then((resp) => resp.json())
+            .then((user) => setUserID(user.id))
+    }, [])
 
     // FETCH PARK AVG RATING & CONVERT TO STAR
     useEffect(() => {
@@ -100,10 +107,16 @@ function App() {
 
     // POST PARK REVIEW / RATING
 
+    // const newReviewSubmit = (newParkReview) => {
+    //     setParkReviews(...parkReviews, newParkReview)
+    // }
+    const newReviewSubmit = (newParkReview) => {
+        setParkReviews([...parkReviews, newParkReview]);
+    }
+
     // PATCH PARK REVIEW / RATING
 
     // DELETE PARK REVIEW / RATING
-
     return (
         <div className='App'>
             <Search parks={parks} setParkID={setParkID} />
@@ -112,7 +125,7 @@ function App() {
             <hr></hr>
             <Reviews parkReviews={parkReviews} />
             <hr></hr>
-            <Form />
+            <Form userID={userID} selectedPark={selectedPark} newReviewSubmit={newReviewSubmit}/>
             <hr></hr>
             <Map />
             <hr></hr>
